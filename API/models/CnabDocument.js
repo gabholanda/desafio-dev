@@ -1,0 +1,60 @@
+const { DataTypes, Model } = require('sequelize');
+const { sequelize } = require('../services/dbService');
+const { cpf } = require('cpf-cnpj-validator');
+
+class CnabDocument extends Model { }
+
+CnabDocument.init({
+    transactionType: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+        validate: {
+            min: 1,
+            max: 9
+        }
+    },
+    ocurrenceDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    value: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+    },
+    CPF: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        notEmpty: true,
+        validate: {
+            validateCPF: (value) => {
+                const isNotValid = !cpf.isValid(value)
+                if (isNotValid) {
+                    throw new Error("This CPF is not valid: " + value);
+                }
+            }
+        }
+    },
+    card: {
+        type: DataTypes.STRING,
+        notEmpty: true,
+        allowNull: false
+    },
+    hour: {
+        type: DataTypes.STRING,
+        notEmpty: true,
+        allowNull: false
+    },
+    shopOwner: {
+        type: DataTypes.STRING,
+        notEmpty: true,
+        allowNull: false
+    },
+    shopName: {
+        type: DataTypes.STRING,
+        notEmpty: true,
+        allowNull: false
+    }
+}, {
+    sequelize, // We need to pass the connection instance
+    modelName: 'CnabDocument' // We need to choose the model name
+});
