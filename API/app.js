@@ -10,8 +10,8 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 const helmet = require("helmet");
-connectDatabase();
 
+connectDatabase();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

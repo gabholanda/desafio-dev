@@ -13,12 +13,17 @@ const sequelize = new Sequelize(database, username, password, {
 });
 
 connectDatabase = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
+    let retries = 10;
+    while (retries)
+        try {
+            await sequelize.authenticate();
+            console.log('Connection has been established successfully.');
+        } catch (error) {
+            console.error(error);
+            console.log(`Retries left: ${retries}`);
+            retries -= 1;
+            await new Promise((res) => setTimeout(res, 5000));
+        }
 }
 
 module.exports = { connectDatabase, sequelize };
