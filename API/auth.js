@@ -1,6 +1,7 @@
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
 const User = require('./models/User');
+const axios = require('axios');
 
 const setPassportStrategy = () => passport.use(new OAuth2Strategy({
     authorizationURL: 'https://github.com/login/oauth/authorize',
@@ -8,22 +9,28 @@ const setPassportStrategy = () => passport.use(new OAuth2Strategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: process.env.CALLBACK_URL || "http://localhost:3000/auth/callback"
-}, (accessToken, refreshToken, profile, cb) => {
-    console.log(accessToken);
-    const values = { username: accessToken }
-    User.findOrCreate({
-        where: values,
-        defaults: {
-            username: "someHash" // TODO: create user via hash, guid or another strategy
+}, async (accessToken, refreshToken, profile, cb) => {
+    try {
+        const options = {
+            method: "GET",
+            url: "https://api.github.com/user",
+            headers: {
+                Authorization: `token ${accessToken}`
+            }
         }
-    })
-        .then((user) => {
-            cb(null, user)
+        const user = await axios(options);
+        const values = { username: user.login, password: user.id.toString() }
+        User.findOrCreate({
+            where: values
         })
-        .catch((error) => {
-            console.error(error);
-            cb(error, null);
-        });
+            .then((user) => {
+                cb(null, user)
+            })
+    } catch (error) {
+        console.error(error);
+        cb(error, null);
+    }
+
 }
 ));
 

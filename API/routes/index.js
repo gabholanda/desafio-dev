@@ -8,7 +8,6 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/logged', checkAuthenticated, (req, res, next) => {
-  console.log(req);
   res.render('logged', { title: 'CNAB Docs API' });
 });
 
