@@ -1,9 +1,17 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const { checkAuthenticated } = require('../services/checkAuth');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  res.render('index', { title: 'CNAB Docs API' });
 });
+
+router.get('/logged', checkAuthenticated, (req, res, next) => {
+  console.log(req);
+  res.render('logged', { title: 'CNAB Docs API' });
+});
+
+
 
 module.exports = router;

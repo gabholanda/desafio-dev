@@ -17,7 +17,9 @@ connectDatabase = async () => {
     while (retries)
         try {
             await sequelize.authenticate();
+            await sequelize.sync({ force: true }); // TODO: Remove it later
             console.log('Connection has been established successfully.');
+            break;
         } catch (error) {
             console.error(error);
             console.log(`Retries left: ${retries}`);
