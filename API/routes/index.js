@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkAuthenticated } = require('../services/checkAuth');
+const { checkAuthenticated } = require('../utils/checkAuth');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {

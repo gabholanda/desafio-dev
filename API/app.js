@@ -4,18 +4,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const { connectDatabase } = require('./services/dbService');
-const indexRouter = require('./routes/index');
-const authRoute = require('./routes/auth');
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require('express-session');
 const passport = require('passport');
-const { setPassportStrategy, setUserSerialization } = require('./auth');
 const app = express();
 
-connectDatabase();
+const { connectDatabase } = require('./services/dbService');
+const { setPassportStrategy, setUserSerialization } = require('./auth');
 
+const indexRouter = require('./routes/index');
+const authRoute = require('./routes/auth');
+const documentRoute = require('./routes/document');
+
+connectDatabase();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,10 +31,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'ungabunga', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 setUserSerialization();
 setPassportStrategy();
+
 app.use('/', indexRouter);
 app.use('/auth', authRoute);
+app.use('/document', documentRoute);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -2,17 +2,14 @@ const { DataTypes, Model } = require('sequelize');
 const { sequelize } = require('../services/dbService');
 const { cpf } = require('cpf-cnpj-validator');
 
-class CnabDocument extends Model { }
+class CnabDocument extends Model {
+
+    static associate(models) {
+        CnabDocument.belongsTo(models.TransactionType);
+    }
+}
 
 CnabDocument.init({
-    transactionType: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        validate: {
-            min: 1,
-            max: 9
-        }
-    },
     ocurrenceDate: {
         type: DataTypes.DATE,
         allowNull: false
@@ -53,8 +50,20 @@ CnabDocument.init({
         type: DataTypes.STRING,
         notEmpty: true,
         allowNull: false
+    },
+    createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: new Date()
+    },
+    updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+        defaultValue: new Date()
     }
 }, {
     sequelize, // We need to pass the connection instance
     modelName: 'CnabDocument' // We need to choose the model name
 });
+
+module.exports = CnabDocument;
