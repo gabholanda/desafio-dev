@@ -1,9 +1,10 @@
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
 const User = require('./models/User');
 const axios = require('axios');
 
-const setPassportStrategy = () => passport.use(new OAuth2Strategy({
+const authStrategy = new OAuth2Strategy({
     authorizationURL: 'https://github.com/login/oauth/authorize',
     tokenURL: 'https://github.com/login/oauth/access_token',
     clientID: process.env.CLIENT_ID,
@@ -19,20 +20,34 @@ const setPassportStrategy = () => passport.use(new OAuth2Strategy({
             }
         }
         const user = await axios(options);
-        const values = { username: user.login }
+        const values = { username: user.data.login, password: user.data.id.toString() }
         User.findOrCreate({
             where: values
         })
-            .then((user) => {
-                cb(null, user)
+            .then((userDb) => {
+                cb(null, values)
             })
     } catch (error) {
         console.error(error);
         cb(error, null);
     }
 
+})
+
+const jwtStrategy = new JwtStrategy(
+    {
+        jwtFromRequest: (req) => req.session.jwt,
+        secretOrKey: process.env.JWT_SECRET_KEY,
+    },
+    (payload, done) => {
+        return done(null, payload);
+    }
+);
+
+const setPassportStrategy = () => {
+    passport.use(authStrategy);
+    passport.use(jwtStrategy);
 }
-));
 
 const setUserSerialization = () => {
     passport.serializeUser((user, done) => {

@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors");
 const helmet = require("helmet");
-const session = require('express-session');
+const session = require('cookie-session');
 const passport = require('passport');
 const app = express();
 
@@ -21,20 +21,27 @@ connectDatabase();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(cors({ credentials: true, origin: true }));
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'ungabunga', resave: true, saveUninitialized: true }));
+/* Set Cookie Settings */
+app.use(
+  session({
+    name: 'session',
+    secret: 'ungabunga',
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
 setUserSerialization();
 setPassportStrategy();
 
+app.use(cors({ credentials: true, origin: true }));
 app.use('/', indexRouter);
 app.use('/auth', authRoute);
 app.use('/document', documentRoute);

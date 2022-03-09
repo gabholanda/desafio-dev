@@ -54,14 +54,14 @@ documentService.getGroupedDocument = async (req, res, next) => {
     }
 }
 
-documentService.getCnabDocument = async (req, res, next) => {
+documentService.getSingleCompanyDocuments = async (req, res, next) => {
     try {
         const { shopName } = req.body;
-        const list = await CnabDocument.findAll({ where: shopName });
+        const documents = await CnabDocument.findAll({ where: shopName });
         const totalBalance = result.reduce((prev, current) => prev.value + current.value, 0)
 
         const responseData = {
-            list,
+            documents,
             totalBalance
         }
         res.status(200).json(responseData);

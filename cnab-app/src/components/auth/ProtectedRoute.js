@@ -1,12 +1,9 @@
 import React from 'react'
-import { Route, Navigate } from 'react-router-dom'
-import AuthService from '../../services/AuthService';
+import { Outlet, Navigate } from 'react-router-dom'
 
-export const ProtectedRoute = ({ component: Component, ...rest }) =>
-    <Route {...rest}
-        render={props => {
-            if (AuthService.isAuthenticated())
-                return <Component{...props} />
-            else
-                return <Navigate to='/' />
-        }} />
+export const ProtectedRoute = (props) => {
+    if (props.service.isAuthenticated())
+        return <Outlet />
+    else
+        return <Navigate to="/" />
+}

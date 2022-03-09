@@ -27,6 +27,7 @@ services:
       - PASSWORD=admin
       - DB_PORT=5432
       - DB_DIALECT=postgres
+      - REDIRECT_URL=client
     depends_on:
       - db
   db:
