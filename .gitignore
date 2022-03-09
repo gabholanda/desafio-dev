@@ -11,6 +11,7 @@ lerna-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Runtime data
+.DS_Store
 pids
 *.pid
 *.seed
@@ -20,6 +21,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
+/coverage
 coverage
 *.lcov
 
@@ -36,10 +38,15 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
+/build
 build/Release
 
 # Dependency directories
+/API/node_modules/
+/cnab-app/node_modules/
 node_modules/
+/.pnp
+.pnp.js
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
