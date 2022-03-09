@@ -2,10 +2,10 @@ version: '3.8'
 services:
   client:
     environment:
-      - API_URL=api
+      - REACT_APP_API_URL=api
     build:
       dockerfile: Dockerfile
-      context: ./client
+      context: ./cnab-app
   api:
     build:
       context: ./

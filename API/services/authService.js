@@ -28,10 +28,10 @@ authService.login = (req, res, next) => {
 }
 
 authService.callback = (req, res, next) => {
-    passport.authenticate('oauth2', { failureRedirect: '/login' }),
+    passport.authenticate('oauth2', { failureRedirect: '/login' })(req, res, next),
         (req, res) => {
             // Successful authentication
-            res.redirect('/logged');
+            res.redirect('http://localhost:3001/');
         }
 }
 

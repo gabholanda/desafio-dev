@@ -19,7 +19,7 @@ const setPassportStrategy = () => passport.use(new OAuth2Strategy({
             }
         }
         const user = await axios(options);
-        const values = { username: user.login, password: user.id.toString() }
+        const values = { username: user.login }
         User.findOrCreate({
             where: values
         })
