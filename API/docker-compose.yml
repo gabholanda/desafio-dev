@@ -1,6 +1,12 @@
 version: '3.8'
 services:
-  web:
+  client:
+    environment:
+      - API_URL=api
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+  api:
     build:
       context: ./
       target: dev
