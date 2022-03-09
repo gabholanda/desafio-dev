@@ -8,6 +8,7 @@ authService.login = (req, res, next) => {
         passport.authenticate('oauth2')(req, res, next);
     } catch (error) {
         console.error(error);
+        res.status(500).json({ message: 'Something went wrong on first request to authenticate user' });
     }
 }
 
@@ -26,7 +27,7 @@ authService.callback = (req, res, next) => {
         }
         const token = jwt.sign(theUser, process.env.JWT_SECRET_KEY);
         req.session.jwt = token;
-        res.redirect(`${process.env.REDIRECT_URL}check-login?token=${token}`);
+        res.redirect(`${process.env.REDIRECT_URL}set-auth?token=${token}`);
     })(req, res, next)
 }
 
