@@ -9,8 +9,8 @@ class Dashboard extends Component {
         this.headerKeys = [
             "Shop Name",
             "Seller Name",
+            "Seller Identity",
             "Card",
-            "Customer Identity",
             "Ocurrence Date",
             "Hour",
             "Value"

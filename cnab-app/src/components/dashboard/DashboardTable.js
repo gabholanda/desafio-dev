@@ -11,8 +11,8 @@ export const DashboardTable = (props) => {
         const dataElements = [
             <DashboardTableData content={document.shopName} key={`${document.shopName} + ${i}`} />,
             <DashboardTableData content={document.shopOwner} key={`${document.shopOwner + i}+${i}`} />,
-            <DashboardTableData content={document.card} key={`${document.card + i}+${i}`} />,
             <DashboardTableData content={document.CPF} key={`${document.CPF + i}+${i}`} />,
+            <DashboardTableData content={document.card} key={`${document.card + i}+${i}`} />,
             <DashboardTableData content={document.ocurrenceDate} key={`${document.ocurrenceDate + i}+${i}`} />,
             <DashboardTableData content={document.hour} key={`${document.hour + i}+${i}`} />,
             <DashboardTableData content={document.value} key={`${document.value + i}+${i}`} />]
