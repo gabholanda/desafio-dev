@@ -18,8 +18,8 @@ services:
     environment:
       - NODE_ENV=development
       - DEBUG=nodejs-docker-express:*
-      - CLIENT_ID=8676e4bc7f4235ed0aca
-      - CLIENT_SECRET=755d7f892077620f28220c721c141eb50a62fbc3
+      - CLIENT_ID=YOUR_CLIENT_ID
+      - CLIENT_SECRET=YOUR_SECRET
       - CALLBACK_URL=http://localhost:3000/auth/callback
       - HOST=db
       - USER=postgres
