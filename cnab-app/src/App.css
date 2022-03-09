@@ -46,3 +46,46 @@ button {
   width: 100%;
   height: max-content;
 }
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  padding: 25px;
+  margin: auto;
+  border: none;
+  background-color: rgb(120, 64, 172);
+  align-items: center;
+  flex-direction: column;
+}
+
+.dashboard-container>h2 {
+  color: rgb(230, 230, 230);
+}
+
+table {
+  background-color: azure;
+  padding: 25px 15px;
+
+  border-radius: 25px;
+}
+
+tr:nth-child(even) {
+  background-color: #7b8081;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+tfoot>tr>th {
+  text-align: left;
+}
+
+#shopList {
+  border-radius: 25px;
+  border: none;
+  padding: 10px 15px;
+  margin: 10px;
+}

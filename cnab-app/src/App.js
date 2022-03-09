@@ -5,7 +5,7 @@ import { Login } from './components/login/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { UnloggedRoute } from './components/auth/UnloggedRoute';
-import { SetAuth } from './components/login/CheckLogin';
+import { SetAuth } from './components/login/SetAuth';
 import AuthService from './services/AuthService';
 
 const service = new AuthService();

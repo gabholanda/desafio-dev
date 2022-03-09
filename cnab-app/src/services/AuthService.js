@@ -34,7 +34,7 @@ class AuthService {
     }
 
     errorHandler = (error) => {
-        throw error
+        throw error;
     }
 
     isAuthenticated = () => this.isAuthed === true;

@@ -1,13 +1,12 @@
 import axios from 'axios';
 
 class DashboardService {
-    constructor() {
-    }
 
     getAllDocs = () => {
         const options = {
             url: `${process.env.REACT_APP_API_URL}/document/getAllDocs`,
-            method: "GET"
+            method: "GET",
+            withCredentials: true
         }
         return axios(options)
             .then(res => res.data)
@@ -16,11 +15,10 @@ class DashboardService {
 
     getSingleCompanyDocs = (document) => {
         const options = {
-            url: `${process.env.REACT_APP_API_URL}/document/getSingleDoc`,
+            url: `${process.env.REACT_APP_API_URL}/document/getSingleCompanyDocs`,
             method: "GET",
-            data: {
-                ...document
-            }
+            withCredentials: true,
+            params: document
         }
         return axios(options)
             .then(res => res.data)
@@ -30,7 +28,8 @@ class DashboardService {
     getGroupedDocs = () => {
         const options = {
             url: `${process.env.REACT_APP_API_URL}/document/getGroupedDocs`,
-            method: "GET"
+            method: "GET",
+            withCredentials: true
         }
         return axios(options)
             .then(res => res.data)
