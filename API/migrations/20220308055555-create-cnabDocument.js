@@ -1,34 +1,63 @@
 'use strict';
 const { DataTypes } = require('sequelize');
+const { cpf } = require('cpf-cnpj-validator');
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('CnabDocuments', {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         unique: true,
-        primaryKey: true,
-        autoIncrement: true
+        primaryKey: true
       },
-      description: {
+      TransactionTypeId: {
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'TransactionTypes"',
+          key: 'id'
+        }
+      },
+      ocurrenceDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      value: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+      },
+      CPF: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        notEmpty: true,
+        validate: {
+          validateCPF: (value) => {
+            const isNotValid = !cpf.isValid(value)
+            if (isNotValid) {
+              throw new Error("This CPF is not valid: " + value);
+            }
+          }
+        }
+      },
+      card: {
         type: DataTypes.STRING,
         notEmpty: true,
         allowNull: false
       },
-      nature: {
+      hour: {
         type: DataTypes.STRING,
         notEmpty: true,
-        allowNull: false,
-        validate: {
-          is: "Entrada" || "Saída"
-        }
+        allowNull: false
       },
-      symbol: {
+      shopOwner: {
         type: DataTypes.STRING,
         notEmpty: true,
-        allowNull: false,
-        validate: {
-          is: "+" || "-"
-        }
+        allowNull: false
+      },
+      shopName: {
+        type: DataTypes.STRING,
+        notEmpty: true,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

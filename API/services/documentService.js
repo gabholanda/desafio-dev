@@ -1,7 +1,6 @@
 const fileParser = require('../utils/fileParser');
-const CnabDocument = require('../models/CnabDocument');
-const TransactionType = require('../models/TransactionType');
-
+const calculateTotal = require('../utils/total');
+const { CnabDocument, TransactionType } = require('../models/index');
 const documentService = {};
 
 documentService.save = async (req, res, next) => {
@@ -18,11 +17,13 @@ documentService.save = async (req, res, next) => {
             for (const key in fileParser[parser]) {
                 newCnabDocument[key] = fileParser[parser][key].read(textLine);
             }
+            newCnabDocument.id = `${newCnabDocument.card}:${newCnabDocument.ocurrenceDate}:${newCnabDocument.value}`
             cnabDocuments.push(newCnabDocument);
         });
         const result = await CnabDocument.bulkCreate(cnabDocuments);
         res.status(200).json(result);
     } catch (error) {
+        console.error(error);
         res.status(500).json(error);
     }
 }
@@ -32,13 +33,14 @@ documentService.getTransactionTypes = async (req, res, next) => {
         const result = await TransactionType.findAll();
         res.status(200).json(result);
     } catch (error) {
+        console.error(error);
         res.status(500).json(error);
     }
 }
 
 documentService.getCnabDocuments = async (req, res, next) => {
     try {
-        const result = await CnabDocument.findAll();
+        const result = await CnabDocument.findAll({ include: TransactionType });
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json(error);
@@ -61,11 +63,17 @@ documentService.getSingleCompanyDocuments = async (req, res, next) => {
         const documents = await CnabDocument.findAll({
             where: {
                 shopName
-            }
+            },
+            include: TransactionType
         });
-        const documentsData = documents.map(document => document.dataValues.value)
+        const documentsData = documents.map(document => {
+            return {
+                document: document.dataValues,
+                TransactionType: document.dataValues.TransactionType.dataValues
+            }
+        })
         const totalBalance = documentsData.reduce((prev, current) => {
-            return prev + current
+            return calculateTotal(prev, current.document.value, current.TransactionType.symbol)
         }, 0)
         const responseData = {
             documents,

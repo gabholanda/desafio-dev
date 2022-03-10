@@ -1,7 +1,7 @@
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
-const User = require('./models/User');
+const { User } = require('./models/index.js');
 const axios = require('axios');
 
 const authStrategy = new OAuth2Strategy({

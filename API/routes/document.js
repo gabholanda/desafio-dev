@@ -8,7 +8,7 @@ const documentService = require('../services/documentService');
 
 router.post('/upload', jwtRequired, upload.single('cnab'), (req, res, next) => documentService.save(req, res, next));
 
-router.get('/transactions', jwtRequired, (req, res, next) => documentService.getTransactionTypes(req, res, next));
+router.get('/transactions', (req, res, next) => documentService.getTransactionTypes(req, res, next));
 
 router.get('/getAllDocs', jwtRequired, (req, res, next) => documentService.getCnabDocuments(req, res, next));
 
