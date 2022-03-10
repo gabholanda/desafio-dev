@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
 import Cookie from 'js-cookie'
 class AuthService {
-    constructor() { }
+    constructor() { this.isAuthed = !!Cookie.get('token'); }
 
     login = () => {
         window.location.href = `${process.env.REACT_APP_API_URL}/auth/login`;
@@ -28,6 +27,7 @@ class AuthService {
         }
         return axios(options)
             .then((res) => {
+                console.log(!!res.data);
                 this.isAuthed = !!res.data;
             })
             .catch(this.errorHandler)

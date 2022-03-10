@@ -4,5 +4,5 @@ export const UnloggedRoute = (props) => {
     if (props.service.isNotAuthenticated())
         return <Outlet />
     else
-        return <Navigate to="dashboard" />
+        return <Navigate to="dashboard/show" />
 }
