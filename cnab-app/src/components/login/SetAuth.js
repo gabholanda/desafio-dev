@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import Cookie from 'js-cookie';
 

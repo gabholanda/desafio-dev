@@ -1,6 +1,6 @@
 import './App.css';
-import { useEffect, Component } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Login } from './components/login/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
