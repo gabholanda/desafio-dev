@@ -21,7 +21,7 @@ const cnab = {
         read: (value) => value.substring(48, 62).trim()
     },
     shopName: {
-        read: (value) => value.substring(62, 81).trim()
+        read: (value) => value.substring(62, value.length).trim()
     }
 }
 
