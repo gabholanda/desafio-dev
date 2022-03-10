@@ -1,6 +1,7 @@
 import DashboardService from "../../services/DashboardService";
 import { Component } from 'react'
 import { DashboardTable } from "./DashboardTable";
+import { Link } from 'react-router-dom';
 class Dashboard extends Component {
     constructor(props) {
         super(props)
@@ -48,6 +49,7 @@ class Dashboard extends Component {
                 }
             </select>
             <DashboardTable documents={this.state.documents} headerKeys={this.headerKeys} total={this.state.totalBalance.toFixed(2)} />
+            <Link to="/dashboard/file" className='link'>File Uploader</Link>
         </div>;
     }
 }
