@@ -1,16 +1,23 @@
 {
   "development": {
-      "username": "postgres",
-      "password": "admin",
-      "database": "cnab",
-      "host": "127.0.0.1",
-      "dialect": "postgres"
+    "username": "postgres",
+    "password": "admin",
+    "database": "cnab",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   },
   "production": {
-      "username": "postgres",
-      "password": "admin",
-      "database": "cnab",
-      "host": "127.0.0.1",
-      "dialect": "postgres"
+    "username": "postgres",
+    "password": "admin",
+    "database": "cnab",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "docker": {
+    "username": "postgres",
+    "password": "admin",
+    "database": "cnab",
+    "host": "db",
+    "dialect": "postgres"
   }
 }

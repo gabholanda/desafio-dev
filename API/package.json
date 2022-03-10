@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "setup": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "setup": "npm install sequelize-cli",
+    "migration": "npx sequelize-cli db:migrate --env docker",
+    "seed": "npx sequelize-cli db:seed:all --env docker",
+    "unseed": "npx sequelize-cli db:seed:undo:all",
+    "seed-reset": "npm run unseed && npm run seed ",
+    "dev": "npm run setup && npm run migration && npm run seed && nodemon --exec ./bin/www",
     "nodemon": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },

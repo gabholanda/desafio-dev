@@ -2,17 +2,19 @@ version: '3.8'
 services:
   client:
     environment:
-      - REACT_APP_API_URL=api
+      - REACT_APP_API_URL=http://localhost:3000
     build:
       dockerfile: Dockerfile
-      context: ./cnab-app
+      context: ../cnab-app
+    ports:
+      - "3001:3001"
   api:
     build:
       context: ./
       target: dev
     volumes:
       - .:/src
-    command: npm run nodemon
+    command: npm run dev
     ports:
       - "3000:3000"
     environment:
@@ -27,7 +29,8 @@ services:
       - PASSWORD=admin
       - DB_PORT=5432
       - DB_DIALECT=postgres
-      - REDIRECT_URL=client
+      - REDIRECT_URL=http://localhost:3001/
+      - JWT_SECRET_KEY=eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY0NjgxNTM3MiwiaWF0IjoxNjQ2ODE1MzcyfQ.MEqBTaW5TF7U6ipCpfnLSC_g-x0kAbsCmUf801KJ4HQ
     depends_on:
       - db
   db:
