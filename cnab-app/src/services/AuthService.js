@@ -27,7 +27,6 @@ class AuthService {
         }
         return axios(options)
             .then((res) => {
-                console.log(!!res.data);
                 this.isAuthed = !!res.data;
             })
             .catch(this.errorHandler)

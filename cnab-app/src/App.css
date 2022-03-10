@@ -63,6 +63,22 @@ button {
   color: rgb(230, 230, 230);
 }
 
+.file-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  padding: 25px;
+  margin: auto;
+  border: none;
+  background-color: rgb(120, 64, 172);
+  align-items: center;
+  flex-direction: column;
+}
+
+.file-container>h2 {
+  color: rgb(230, 230, 230);
+}
+
 table {
   background-color: azure;
   padding: 25px 15px;
@@ -88,4 +104,25 @@ tfoot>tr>th {
   border: none;
   padding: 10px 15px;
   margin: 10px;
+}
+
+.form {
+  padding: 25px;
+  background-color: azure;
+  border-radius: 25px;
+}
+
+#file-upload {
+  margin-right: 10px;
+}
+
+#file-submit {
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: azure;
+  background-color: rgb(56, 139, 23);
+}
+
+.link {
+  color: azure;
 }
