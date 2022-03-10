@@ -14,7 +14,7 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'TransactionTypes"',
+          model: 'TransactionTypes',
           key: 'id'
         }
       },

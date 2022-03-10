@@ -19,7 +19,7 @@ module.exports = {
         notEmpty: true,
         allowNull: false,
         validate: {
-          is: "Entrada" || "Saída"
+          is: /(Entrada|Saída)/
         }
       },
       symbol: {
@@ -27,7 +27,7 @@ module.exports = {
         notEmpty: true,
         allowNull: false,
         validate: {
-          is: "+" || "-"
+          is: /(\+|\-)/
         }
       },
       createdAt: {
