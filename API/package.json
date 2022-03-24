@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "npx mocha -w --parallel ./tests/*.test.js",
-    "test:cov": "npx nyc npx mocha --parallel ./tests/*.test.js",
+    "test": "npx mocha -w --parallel ./tests/*/*.test.js",
+    "test:cov": "npx nyc npx mocha --parallel ./tests/*/*.test.js",
     "setup": "npm install sequelize-cli",
     "migration": "npx sequelize-cli db:migrate --env docker",
     "seed": "npx sequelize-cli db:seed:all --env docker",

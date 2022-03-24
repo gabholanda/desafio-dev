@@ -1,8 +1,8 @@
 const sinon = require('sinon');
 const assert = require('assert');
-const { cnab } = require('../utils/fileParser');
+const { cnab } = require('../../utils/fileParser');
 const { describe, it, } = require('mocha');
-const { file } = require('../mocks/fileParserMock.json');
+const { file } = require('../../mocks/fileParserMock.json');
 
 describe("Cnab file parser method", () => {
     it("should get first digit as a transaction id", () => {

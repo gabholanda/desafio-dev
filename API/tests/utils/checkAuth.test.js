@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const assert = require('assert');
-const auth = require('../utils/checkAuth');
+const auth = require('../../utils/checkAuth');
 const { describe, it, } = require('mocha');
 const request = {
     setAuth: true,

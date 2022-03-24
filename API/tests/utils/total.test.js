@@ -1,6 +1,6 @@
 const sinon = require('sinon');
 const assert = require('assert');
-const total = require('../utils/total');
+const total = require('../../utils/total');
 const { describe, it, } = require('mocha');
 const mock = [
     { value: 0, symbol: "+" },
