@@ -5,7 +5,7 @@ checkAuthenticated = (req, res, next) => {
 
 checkLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) return res.redirect("/logged");
-    next();
+    return next();
 }
 
 module.exports = { checkAuthenticated, checkLoggedIn };

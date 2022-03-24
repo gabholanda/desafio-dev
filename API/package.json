@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "npx mocha -w --parallel ./tests/*.test.js",
+    "test:cov": "npx nyc npx mocha --parallel ./tests/*.test.js",
     "setup": "npm install sequelize-cli",
     "migration": "npx sequelize-cli db:migrate --env docker",
     "seed": "npx sequelize-cli db:seed:all --env docker",
@@ -36,7 +38,11 @@
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
+    "mocha": "^8.4.0",
     "nodemon": "^2.0.15",
-    "sequelize-cli": "^6.4.1"
+    "nyc": "^15.1.0",
+    "sequelize-cli": "^6.4.1",
+    "sinon": "^9.2.4",
+    "supertest": "^6.2.2"
   }
 }
