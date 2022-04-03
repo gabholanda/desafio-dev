@@ -10,11 +10,11 @@ services:
       - "3001:3001"
   api:
     build:
+      dockerfile: Dockerfile
       context: ./
       target: dev
     volumes:
       - .:/src
-    command: npm run dev
     ports:
       - "3000:3000"
     environment:

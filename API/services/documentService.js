@@ -1,89 +1,82 @@
 const fileParser = require('../utils/fileParser');
-const calculateTotal = require('../utils/total');
-const { CnabDocument, TransactionType } = require('../models/index');
-const documentService = {};
-
-documentService.save = async (req, res, next) => {
-    try {
-        const { file } = req;
-        const { parser } = req.body;
-        const textLines = file.buffer
-            .toString()
-            .trim()
-            .split('\n');
-        const cnabDocuments = [];
-        textLines.forEach(textLine => {
-            const newCnabDocument = {}
-            for (const key in fileParser[parser]) {
-                newCnabDocument[key] = fileParser[parser][key].read(textLine);
-            }
-            newCnabDocument.id = `${newCnabDocument.card}:${newCnabDocument.ocurrenceDate}:${newCnabDocument.value}`
-            cnabDocuments.push(newCnabDocument);
-        });
-        const result = await CnabDocument.bulkCreate(cnabDocuments);
-        res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json(error);
+const { calculateTotal } = require('../utils/total');
+const models = require('../models/index');
+const fillUtil = require('../utils/fillDocuments');
+class DocumentService {
+    constructor() {
+        this.fileParser = fileParser;
+        this.calculateTotal = calculateTotal;
+        this.TransactionType = models.TransactionType;
+        this.CnabDocument = models.CnabDocument;
+        this.fillUtil = fillUtil;
     }
-}
 
-documentService.getTransactionTypes = async (req, res, next) => {
-    try {
-        const result = await TransactionType.findAll();
-        res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json(error);
-    }
-}
-
-documentService.getCnabDocuments = async (req, res, next) => {
-    try {
-        const result = await CnabDocument.findAll({ include: TransactionType });
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
-}
-
-documentService.getGroupedDocument = async (req, res, next) => {
-    try {
-        const list = await CnabDocument.findAll({ attributes: ['shopName'], group: 'shopName' });
-        res.status(200).json(list);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json(error);
-    }
-}
-
-documentService.getSingleCompanyDocuments = async (req, res, next) => {
-    try {
-        const { shopName } = req.query;
-        const documents = await CnabDocument.findAll({
-            where: {
-                shopName
-            },
-            include: TransactionType
-        });
-        const documentsData = documents.map(document => {
-            return {
-                document: document.dataValues,
-                TransactionType: document.dataValues.TransactionType.dataValues
-            }
-        })
-        const totalBalance = documentsData.reduce((prev, current) => {
-            return calculateTotal(prev, current.document.value, current.TransactionType.symbol)
-        }, 0)
-        const responseData = {
-            documents,
-            totalBalance
+    async save(file, parser) {
+        try {
+            const textLines = file.buffer
+                .toString()
+                .trim()
+                .split('\n');
+            const cnabDocuments = [];
+            this.fillUtil.fillDocuments(cnabDocuments, textLines, this.fileParser, parser);
+            const result = await this.CnabDocument.bulkCreate(cnabDocuments);
+            return result;
+        } catch (error) {
+            throw new TypeError(error);
         }
-        res.status(200).json(responseData);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json(error);
+    }
+
+    async getTransactionTypes() {
+        try {
+            return await this.TransactionType.findAll();
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async getCnabDocuments() {
+        try {
+            return await this.CnabDocument.findAll({ include: this.TransactionType });
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async getGroupedDocument() {
+        try {
+            return await this.CnabDocument.findAll({ attributes: ['shopName'], group: 'shopName' });
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async getSingleCompanyDocuments(shopName) {
+        try {
+            const documents = await this.CnabDocument.findAll({
+                where: {
+                    shopName
+                },
+                include: this.TransactionType
+            });
+            const documentsData = documents.map(document => {
+                return {
+                    document: document.dataValues,
+                    TransactionType: document.dataValues.TransactionType.dataValues
+                }
+            })
+            const totalBalance = documentsData.reduce((prev, current) => {
+                return this.calculateTotal(prev, current.document.value, current.TransactionType.symbol)
+            }, 0)
+            const responseData = {
+                documents,
+                totalBalance
+            }
+            return responseData
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 
-module.exports = documentService;
+
+module.exports = DocumentService;

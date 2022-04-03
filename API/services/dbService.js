@@ -3,7 +3,7 @@ const host = process.env.HOST;
 const username = process.env.USER;
 const password = process.env.PASSWORD;
 const database = process.env.DATABASE;
-const dialect = process.env.DB_DIALECT;
+const dialect = process.env.DB_DIALECT || "postgres";
 const port = process.env.DB_PORT;
 
 const sequelize = new Sequelize(database, username, password, {

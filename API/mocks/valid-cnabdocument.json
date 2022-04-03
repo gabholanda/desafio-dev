@@ -1,0 +1,11 @@
+{
+    "id": "1",
+    "TransactionTypeId": 3,
+    "ocurrenceDate": "2019-03-01",
+    "value": 142.0,
+    "CPF": "96206760174",
+    "card": "753****3153",
+    "hour": "15:34:53",
+    "shopOwner": "JOÃO MACEDO",
+    "shopName": "BAR DO JOÃO"
+}
